@@ -23,7 +23,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times N
 .screen{display:flex;flex-direction:column;height:100vh;height:100dvh;min-height:480px;padding-top:12px}
 .screen>p,.screen>h1,.screen>div.legend{flex:none}
 .stage{flex:1 1 auto;min-height:0;display:flex;justify-content:center;align-items:stretch;padding-bottom:6px}
-h1{font-size:1.25rem;font-weight:600;margin:0 0 8px;line-height:1.25}
+h1{font-size:1.25rem;font-weight:600;margin:0 0 4px;line-height:1.25}
 .sub{color:var(--quiet);font-size:.85rem;margin:0 0 6px;font-family:system-ui,sans-serif}
 .legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 4px;font-family:system-ui,sans-serif;font-size:.85rem}
 .legend button{display:flex;align-items:center;gap:6px;border:1px solid var(--grid);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer;font:inherit}
@@ -53,6 +53,8 @@ svg.map{width:100%;height:100%;max-width:100%;display:block;font-family:system-u
 @media (max-width:520px){.screen{height:auto;min-height:0}svg.map{height:auto}.stage{display:block}#tip{left:8px!important;right:8px;bottom:8px;top:auto!important;max-width:none}}
 .kicker{font-family:system-ui,sans-serif;font-size:.8rem;color:var(--quiet);margin:0 0 2px}
 .kicker a,.foot a{color:var(--s)}
+.lead{font-family:system-ui,sans-serif;font-size:.9rem;line-height:1.45;margin:0 0 8px;max-width:860px}
+.lead a{color:var(--s);font-weight:600}
 .foot{margin-top:22px;padding-top:14px;border-top:1px solid var(--grid);font-family:system-ui,sans-serif;font-size:.82rem;line-height:1.55;color:var(--quiet)}
 .foot p{margin:0 0 8px}
 </style>
@@ -62,6 +64,7 @@ svg.map{width:100%;height:100%;max-width:100%;display:block;font-family:system-u
 <section class="screen">
 <p class="kicker">Mapa interativo do artigo <a href="https://aso1976.medium.com/mas-afinal-quem-%C3%A9-menos-pior-5e52204fe4d8" target="_blank" rel="noopener">“Mas afinal, quem é menos pior?”</a></p>
 <h1>Quem é menos pior? 68 casos no mapa</h1>
+<p class="lead">Todo mundo tem certeza de quem é o pior. Passe o mouse ou toque nos pontos, confira as provas de cada caso e veja se o mapa confirma a sua certeza. Depois, <a href="https://aso1976.medium.com/mas-afinal-quem-%C3%A9-menos-pior-5e52204fe4d8" target="_blank" rel="noopener">leia o artigo</a> e descubra por que a resposta depende da régua.</p>
 <div class="legend" id="legend"></div>
 <div class="stage"><svg class="map" id="map" viewBox="62 58 664 856" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mapa de dispersão dos 68 casos por modo de dano e alvo"></svg></div>
 </section>
