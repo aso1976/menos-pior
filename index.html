@@ -57,8 +57,6 @@ svg.map{width:100%;height:100%;max-width:100%;display:block;font-family:system-u
 .lead a{color:var(--s);font-weight:600}
 .foot{margin-top:22px;padding-top:14px;border-top:1px solid var(--grid);font-family:system-ui,sans-serif;font-size:.82rem;line-height:1.55;color:var(--quiet)}
 .foot p{margin:0 0 8px}
-.pt.xp .shape{stroke-dasharray:3 2}
-.legend button.xb{border-style:dashed}
 #tip.pin{pointer-events:auto}
 #tip .hint{color:var(--quiet);font-size:.74rem;margin-top:6px}
 #tip .read{display:inline-block;margin-top:8px;border:1px solid var(--grid);background:var(--bg);color:var(--ink);border-radius:999px;padding:5px 12px;font:600 .8rem system-ui,sans-serif;cursor:pointer}
@@ -149,7 +147,7 @@ order.concat([...XDATA].sort((a,b)=>a.i-b.i)).forEach(r=>{
 // legend
 const shown={l:true,b:true,s:true,x:false};
 const leg=document.getElementById('legend');const btn={};
-const IC={s:'<circle cx="8" cy="8" r="6"/>',b:'<path d="M8 1l7 7l-7 7l-7-7z"/>',l:'<path d="M8 1L9.8 5.6L14.7 5.8L10.9 8.9L12.2 13.7L8 11L3.8 13.7L5.1 8.9L1.3 5.8L6.2 5.6Z"/>',x:'<rect x="2" y="2" width="12" height="12" rx="1.5" stroke-dasharray="2.5 1.5"/>'};
+const IC={s:'<circle cx="8" cy="8" r="6"/>',b:'<path d="M8 1l7 7l-7 7l-7-7z"/>',l:'<path d="M8 1L9.8 5.6L14.7 5.8L10.9 8.9L12.2 13.7L8 11L3.8 13.7L5.1 8.9L1.3 5.8L6.2 5.6Z"/>',x:'<rect x="2" y="2" width="12" height="12" rx="1.5"/>'};
 function apply(){Object.keys(shown).forEach(c=>{btn[c].setAttribute('aria-pressed',shown[c]);layer.querySelectorAll(`.pt[data-c="${c}"]`).forEach(n=>{n.classList.toggle('off',!shown[c]);n.setAttribute('tabindex',shown[c]?0:-1)})});hide()}
 ['l','b','s','x'].forEach(c=>{
   const b=document.createElement('button');b.type='button';if(c==='x')b.className='xb';
@@ -169,8 +167,8 @@ function show(node,ev,pinned){
   <div class="nums">${['P','V','C','R','G'].map((l,i)=>`<div><b>${n[i]}</b><span>${l}</span></div>`).join('')}</div>
   <p>${esc(r.d)}</p>${r.cri?`<p><span class="lb">Crítica:</span> ${esc(r.cri)}</p><p><span class="lb">Defesa:</span> ${esc(r.def)}</p>`:''}
   ${r.c==='x'?`<div class="pv">Fora dos 90: ${esc(FILT[r.f]||r.f)}</div>`:`<div class="pv">Prova: ${esc(r.prova)}</div>`}
-  ${pinned?'<button type="button" class="read">Ler o caso →</button>':'<div class="hint">Clique duas vezes no ponto para ler o caso.</div>'}`;
-  tip.classList.toggle('pin',pinned); tip.classList.add('show'); place(ev,node);
+  ${pinned?'<button type="button" class="read">Ler o caso →</button>':'<div class="hint">Clique para fixar o card · clique duas vezes para ler o caso.</div>'}`;
+  tip.classList.toggle('pin',!!pinned); tip.classList.add('show'); place(ev,node);
   const rb=tip.querySelector('.read'); if(rb) rb.onclick=e=>{e.stopPropagation();openCase(r,node)};
 }
 function place(ev,node){
