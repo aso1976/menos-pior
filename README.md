@@ -1,4 +1,4 @@
-# Mapa dos danos à república
+# Quem é menos pior? 90 casos mapeados
 
 Mapa interativo do artigo **“Mas afinal, quem é menos pior?”**, de André Oliveira.
 
