@@ -2,7 +2,7 @@
 
 Mapa interativo do artigo **“Mas afinal, quem é menos pior?”**, de André Oliveira.
 
-68 casos de lulismo, bolsonarismo e STF, posicionados por **alvo** (Estado ou eleitor) e por **modo** (corrosão ou ruptura). Passe o mouse ou toque num ponto para ver a ficha do caso: notas, descrição, crítica e defesa (STF) e a prova documental.
+90 casos de lulismo, bolsonarismo e STF (versão 2 do levantamento, com 115 candidatos triados), posicionados por **alvo** (Estado ou eleitor) e por **modo** (corrosão ou ruptura). Passe o mouse ou toque num ponto para ver a ficha do caso: notas, descrição, crítica e defesa (STF) e a prova documental.
 
 - Artigo: https://aso1976.medium.com/mas-afinal-quem-%C3%A9-menos-pior-5e52204fe4d8
 - Versão Datawrapper: https://datawrapper.dwcdn.net/KeBsq/
@@ -13,7 +13,7 @@ Mapa interativo do artigo **“Mas afinal, quem é menos pior?”**, de André O
 |---|---|
 | `index.html` | Página do mapa interativo (HTML, CSS e JavaScript num único arquivo, sem dependências externas) |
 | `mapa-danos.png` | Imagem estática do mapa, para compartilhamento |
-| `dados-68-casos.csv` | Dados dos 68 casos: coordenadas, notas P·V·C·R·G, descrição e prova |
+| `dados-90-casos.csv` | Dados dos 90 casos: coordenadas, notas P·V·C·R·G, descrição e prova |
 | `.nojekyll` | Faz o GitHub Pages servir os arquivos como estão |
 
 ## Método
