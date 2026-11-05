@@ -36,6 +36,15 @@ button{font:inherit;color:inherit}
 #map{display:block;width:100%;height:100%;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .side{display:flex;flex-direction:column;gap:12px;min-height:0}
 .groups{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.avgc{flex:none;background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:14px 16px 12px}
+.avgc h3{font-family:var(--serif);font-weight:600;font-size:1.02rem;margin:0 0 2px}
+.avgc .sub{font-size:.74rem;color:var(--quiet);margin:0 0 6px}
+.avgc svg{display:block;width:100%;height:auto}
+.avgc .col{transition:opacity .25s}
+.avgc .col.off{opacity:.22}
+.avgc text{font-family:var(--ui);fill:var(--quiet);font-size:10px}
+.avgc text.v{font-family:var(--serif);font-size:15px;font-weight:600;fill:var(--ink)}
+.avgc text.g{font-size:11px;fill:var(--ink);font-weight:600}
 .groups button{display:flex;align-items:center;gap:8px;border:1px solid var(--grid);background:var(--card);border-radius:12px;padding:9px 10px;cursor:pointer;text-align:left;font-size:.86rem;font-weight:600;transition:opacity .2s,border-color .2s}
 .groups button svg{width:22px;height:22px;flex:none}
 .groups button small{display:block;font-weight:400;color:var(--quiet);font-size:.74rem}
@@ -132,6 +141,7 @@ button{font:inherit;color:inherit}
   <aside class="side">
     <div class="groups" id="legend" aria-label="Grupos"></div>
     <div class="panel" id="panel" aria-live="polite"></div>
+    <section class="avgc" aria-labelledby="avgT"><h3 id="avgT">Impacto médio por grupo</h3><p class="sub">Média dos casos de cada grupo, na escala de impacto de 0 a 16.</p><svg id="avg" viewBox="0 0 320 150" role="img"></svg></section>
   </aside>
 </main>
 <footer class="foot">
@@ -273,7 +283,22 @@ const IC={l:`<path d="${star(9.5,4.5)}" transform="translate(11 12)"/>`,b:'<path
     unpin();syncLegend();layout();render()};
   btn[c]=b;legend.appendChild(b);
 });
-function syncLegend(){Object.keys(btn).forEach(c=>btn[c].setAttribute('aria-pressed',shown[c]))}
+function syncLegend(){Object.keys(btn).forEach(c=>btn[c].setAttribute('aria-pressed',shown[c]));
+  avg.querySelectorAll('.col').forEach(g=>g.classList.toggle('off',!shown[g.dataset.c]))}
+// impacto médio por grupo (só os 90 casos)
+const avg=document.getElementById('avg');
+(()=>{const T=12,B=118,L=26,W=320,top=16,yy=v=>B-(B-T)*v/top;
+  for(const v of [0,4,8,12,16]){mk('line',{x1:L,x2:W-4,y1:yy(v),y2:yy(v),stroke:'var(--grid)','stroke-width':v?1:1.4},avg);const t=mk('text',{x:L-6,y:yy(v)+3.5,'text-anchor':'end'},avg);t.textContent=v}
+  const cs=['l','b','s'],slot=(W-4-L)/3,cw=48,lab=[];
+  cs.forEach((c,i)=>{const rs=DATA.filter(r=>r.c===c),m=rs.reduce((a,r)=>a+r.i,0)/rs.length,cx=L+slot*(i+.5),y=yy(m),h=B-y,r=6;
+    const g=mk('g',{class:'col','data-c':c},avg);
+    mk('path',{d:`M${cx-cw/2} ${B}V${y+r}q0 -${r} ${r} -${r}h${cw-2*r}q${r} 0 ${r} ${r}V${B}z`,fill:`var(--${c})`,'fill-opacity':.9},g);
+    const v=mk('text',{class:'v',x:cx,y:y-6,'text-anchor':'middle'},g);v.textContent=fmt(m.toFixed(1));
+    const n=mk('text',{class:'g',x:cx,y:B+15,'text-anchor':'middle'},g);n.textContent=NOME[c];
+    const k=mk('text',{x:cx,y:B+28,'text-anchor':'middle'},g);k.textContent=rs.length+' casos';
+    mk('title',{},g).textContent=`${NOME[c]}: impacto médio ${fmt(m.toFixed(2))} em ${rs.length} casos`;
+    lab.push(`${NOME[c]} ${fmt(m.toFixed(1))}`)});
+  avg.setAttribute('aria-label','Impacto médio, escala de 0 a 16: '+lab.join('; '))})();
 // panel
 const guide=`<h2>Como explorar</h2><div class="guide"><ul>
 <li>Passe o ponteiro sobre um ícone para ver as notas do caso aqui.</li>
