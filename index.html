@@ -55,6 +55,11 @@ button{font:inherit;color:inherit}
 .bars .seg i{height:8px;border-radius:3px;background:var(--wash)}
 .bars .seg i.on{background:var(--cc)}
 .bars b{font-weight:700;min-width:1ch;text-align:right}
+.bars .pair{grid-column:1/-1;display:grid;grid-template-columns:subgrid;gap:5px 10px;align-items:center;margin:2px -8px;padding:6px 8px 7px;border:1px solid var(--grid);border-radius:10px}
+.bars .pair .avg{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px;border-top:1px dashed var(--grid);padding-top:5px;margin-top:1px;color:var(--quiet)}
+.bars .pair .avg b{color:var(--ink)}
+.bars .sum{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--grid);padding-top:6px;margin-top:2px;color:var(--quiet)}
+.bars .sum b{color:var(--ink)}
 .imp{display:flex;align-items:baseline;gap:6px;margin:0 0 12px;font-size:.8rem;color:var(--quiet)}
 .imp b{font-family:var(--serif);font-size:1.6rem;color:var(--ink);font-weight:600}
 .panel .cd{font-size:.8rem;color:var(--quiet);font-style:italic}
@@ -279,11 +284,16 @@ const guide=`<h2>Como explorar</h2><div class="guide"><ul>
 function cardHTML(r,isPin){
   const n=r.notas.split('·').map(Number), col=`var(--${COL(r)})`;
   const lbl={P:'Atinge o Estado',V:'Atinge o eleitor',C:'Contesta a legitimidade',R:'Força ou coerção',G:'Corrosão oculta'};
-  const bars=['P','V','C','R','G'].map((l,i)=>`<span class="lb">${l} · ${lbl[l]}</span><span class="seg">${[1,2,3,4].map(k=>`<i class="${k<=n[i]?'on':''}"></i>`).join('')}</span><b>${n[i]}</b>`).join('');
+  const row=(l,i)=>`<span class="lb">${l} · ${lbl[l]}</span><span class="seg">${[1,2,3,4].map(k=>`<i class="${k<=n[i]?'on':''}"></i>`).join('')}</span><b>${n[i]}</b>`;
+  const m=(n[2]+n[3])/2;
+  const bars=row('P',0)+row('V',1)
+    +`<div class="pair">${row('C',2)}${row('R',3)}<span class="avg"><span>C e R contam juntas, pela média</span><b>${fmt(m)}</b></span></div>`
+    +row('G',4)
+    +`<span class="sum"><span>Impacto = ${n[0]} + ${n[1]} + ${fmt(m)} + ${n[4]}</span><b>${fmt(r.i)}</b></span>`;
   return `<button type="button" class="sheetx" aria-label="Fechar">×</button>
   <div class="hd"><span class="chip" style="background:${col}">${r.k}</span><h2>${esc(r.t)}</h2></div>
   <p class="meta">${r.c==='x'?'Desconsiderado · '+ORIG[r.o]:NOME[r.c]} · ${QN[r.q]}</p>
-  <div class="imp"><b>${fmt(r.i)}</b> de impacto, numa escala de 0 a 16</div>
+  <div class="imp"><b>${fmt(r.i)}</b> de impacto, numa escala de 0 a 16 (quatro notas de 0 a 4)</div>
   <div class="bars" style="--cc:${col}">${bars}</div>
   <p>${esc(r.d)}</p>
   ${r.cri?`<p><span class="lbl">Crítica:</span> ${esc(r.cri)}</p><p><span class="lbl">Defesa:</span> ${esc(r.def)}</p>`:''}
