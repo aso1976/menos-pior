@@ -79,7 +79,7 @@ button{font:inherit;color:inherit}
 .pt .ring{fill:none;stroke:var(--ink);stroke-width:2;opacity:0}
 .pt.sel .ring{opacity:1}
 .dimmed .pt:not(.sel):not(.hov){opacity:.28}
-.dimmed .pt.gone{opacity:0}
+.pt.gone,.dimmed .pt.gone:not(.sel):not(.hov){opacity:0;pointer-events:none}
 .lead-line{stroke:var(--edge);stroke-width:1;transition:opacity .35s}
 .anchor{fill:var(--edge);transition:opacity .35s}
 @media (prefers-reduced-motion:reduce){.pt,.pt .ico,.lead-line,.anchor{transition:none}}
