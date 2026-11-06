@@ -44,6 +44,7 @@ button{font:inherit;color:inherit}
 .avgc .col.off{opacity:.22}
 .avgc text{font-family:var(--ui);fill:var(--quiet);font-size:10px}
 .avgc text.v{font-family:var(--serif);font-size:15px;font-weight:600;fill:var(--ink)}
+.avgc text.mx{font-size:10.5px;font-weight:600;fill:var(--quiet)}
 .avgc text.g{font-size:11px;fill:var(--ink);font-weight:600}
 .groups button{display:flex;align-items:center;gap:8px;border:1px solid var(--grid);background:var(--card);border-radius:12px;padding:9px 10px;cursor:pointer;text-align:left;font-size:.86rem;font-weight:600;transition:opacity .2s,border-color .2s}
 .groups button svg{width:22px;height:22px;flex:none}
@@ -141,7 +142,7 @@ button{font:inherit;color:inherit}
   <aside class="side">
     <div class="groups" id="legend" aria-label="Grupos"></div>
     <div class="panel" id="panel" aria-live="polite"></div>
-    <section class="avgc" aria-labelledby="avgT"><h3 id="avgT">Impacto médio por grupo</h3><p class="sub">Média dos casos de cada grupo, na escala de impacto de 0 a 16.</p><svg id="avg" viewBox="0 0 320 150" role="img"></svg></section>
+    <section class="avgc" aria-labelledby="avgT"><h3 id="avgT">Impacto médio por grupo</h3><p class="sub">Coluna cheia: média dos casos do grupo. Coluna clara: o caso de maior impacto. Escala de 0 a 16.</p><svg id="avg" viewBox="0 0 320 150" role="img"></svg></section>
   </aside>
 </main>
 <footer class="foot">
@@ -292,12 +293,15 @@ const avg=document.getElementById('avg');
   const cs=['l','b','s'],slot=(W-4-L)/3,cw=48,lab=[];
   cs.forEach((c,i)=>{const rs=DATA.filter(r=>r.c===c),m=rs.reduce((a,r)=>a+r.i,0)/rs.length,cx=L+slot*(i+.5),y=yy(m),h=B-y,r=6;
     const g=mk('g',{class:'col','data-c':c},avg);
+    const top1=rs.find(r=>r.k===c.toUpperCase()+'1'),ym=yy(top1.i),mw=cw+18;
+    mk('path',{d:`M${cx-mw/2} ${B}V${ym+r}q0 -${r} ${r} -${r}h${mw-2*r}q${r} 0 ${r} ${r}V${B}z`,fill:`var(--${c})`,'fill-opacity':.2},g);
+    const mx=mk('text',{class:'mx',x:cx,y:ym-5,'text-anchor':'middle'},g);mx.textContent=`${top1.k}: ${fmt(top1.i)}`;
     mk('path',{d:`M${cx-cw/2} ${B}V${y+r}q0 -${r} ${r} -${r}h${cw-2*r}q${r} 0 ${r} ${r}V${B}z`,fill:`var(--${c})`,'fill-opacity':.9},g);
     const v=mk('text',{class:'v',x:cx,y:y-6,'text-anchor':'middle'},g);v.textContent=fmt(m.toFixed(1));
     const n=mk('text',{class:'g',x:cx,y:B+15,'text-anchor':'middle'},g);n.textContent=NOME[c];
     const k=mk('text',{x:cx,y:B+28,'text-anchor':'middle'},g);k.textContent=rs.length+' casos';
-    mk('title',{},g).textContent=`${NOME[c]}: impacto médio ${fmt(m.toFixed(2))} em ${rs.length} casos`;
-    lab.push(`${NOME[c]} ${fmt(m.toFixed(1))}`)});
+    mk('title',{},g).textContent=`${NOME[c]}: impacto médio ${fmt(m.toFixed(2))} em ${rs.length} casos; maior impacto ${top1.k}, ${top1.n}, com ${fmt(top1.i)}`;
+    lab.push(`${NOME[c]} média ${fmt(m.toFixed(1))}, máximo ${top1.k} ${fmt(top1.i)}`)});
   avg.setAttribute('aria-label','Impacto médio, escala de 0 a 16: '+lab.join('; '))})();
 // panel
 const guide=`<h2>Como explorar</h2><div class="guide"><ul>
